@@ -1,0 +1,14 @@
+Entities and Definitions
+
+Account - Login and Unique Identification credentials
+User - Description of a human
+    Website - Domain name of an online place and the Environments (categories) it belongs to
+        Environment - Category or Mode the program operates in (e.g. Work, School, Homework, Free)
+            Contains a list of websites
+    Task - A To-do item
+    TaskGoal - Time bound goal to complete x tasks
+    TimeGoal - Time bound goal to have a certain percentage score by the end date/time
+    Session - record of a browsing session, containing % on task score and list of Events
+        Event - Record of visiting a site that's listed in an Environment
+    TimePeriod - Time associated with a default Environment (mode) to start the chrome extension in
+    
