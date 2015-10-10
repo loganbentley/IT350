@@ -1,0 +1,25 @@
+/* Integration Test 350 General Style */
+
+body {
+    min-width: 400px;
+    background: #eeeeee;
+    color: #444444;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    min-width: 100%;
+    background: #101050;
+    color: #eeeeee;
+    margin-top: 0;
+    border-top: 1px solid #000030;
+    border-bottom: 1px solid #000030;
+    border-radius: 3px;
+}
+
+form {
+    border: 1px solid #a0a0a0;
+    border-radius: 3px;
+}

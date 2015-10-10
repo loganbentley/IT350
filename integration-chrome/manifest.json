@@ -1,0 +1,10 @@
+{
+    "manifest_version": 2,
+    "name": "Integration Test 350",
+    "version": "42",
+    "description": "Chrome extension to test integration of dev tools",
+
+    "browser_action": {
+        "default_popup": "html/main.html"
+    }
+}
