@@ -10,13 +10,15 @@
             <h1> Integration Test 350 </h1>
             <div id="comment-form">
                 <p>Test form for editing database </p>
-                <form name="dbform" method="post" action="#">
+                <form name="dbform">
                     <p>Insert comment into database:</p>
-                    <input type="text" name="commentInput" />
+                    <input type="text" id="commentInput" name="commentInput" />
                     <br />
                     <input id="commentSubmitButton" type="submit" value="submit" />
+                    <br />
+                    <br />
                 </form>
-                <p><a href="#">Remove latest entry from database</a></p>
+                <p id="formResult">&nbsp;</p>
             </div>
         </div>
     </body>
