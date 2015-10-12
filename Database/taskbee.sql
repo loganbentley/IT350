@@ -10,16 +10,16 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-10-07 21:58:38
+Date: 2015-10-12 15:30:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for account
+-- Table structure for accounts
 -- ----------------------------
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE `account` (
+DROP TABLE IF EXISTS `accounts`;
+CREATE TABLE `accounts` (
   `accountId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `passwordHash` varchar(255) NOT NULL,
@@ -27,10 +27,14 @@ CREATE TABLE `account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for environment
+-- Records of accounts
 -- ----------------------------
-DROP TABLE IF EXISTS `environment`;
-CREATE TABLE `environment` (
+
+-- ----------------------------
+-- Table structure for environments
+-- ----------------------------
+DROP TABLE IF EXISTS `environments`;
+CREATE TABLE `environments` (
   `environmentId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -38,10 +42,14 @@ CREATE TABLE `environment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for event
+-- Records of environments
 -- ----------------------------
-DROP TABLE IF EXISTS `event`;
-CREATE TABLE `event` (
+
+-- ----------------------------
+-- Table structure for events
+-- ----------------------------
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE `events` (
   `eventId` int(11) NOT NULL AUTO_INCREMENT,
   `environmentId` int(11) NOT NULL,
   `startTime` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -52,10 +60,14 @@ CREATE TABLE `event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for session
+-- Records of events
 -- ----------------------------
-DROP TABLE IF EXISTS `session`;
-CREATE TABLE `session` (
+
+-- ----------------------------
+-- Table structure for sessions
+-- ----------------------------
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE `sessions` (
   `sessionId` int(11) NOT NULL AUTO_INCREMENT,
   `startTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `endTime` datetime DEFAULT NULL,
@@ -67,10 +79,14 @@ CREATE TABLE `session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for task
+-- Records of sessions
 -- ----------------------------
-DROP TABLE IF EXISTS `task`;
-CREATE TABLE `task` (
+
+-- ----------------------------
+-- Table structure for tasks
+-- ----------------------------
+DROP TABLE IF EXISTS `tasks`;
+CREATE TABLE `tasks` (
   `taskId` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -82,10 +98,14 @@ CREATE TABLE `task` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for taskgoal
+-- Records of tasks
 -- ----------------------------
-DROP TABLE IF EXISTS `taskgoal`;
-CREATE TABLE `taskgoal` (
+
+-- ----------------------------
+-- Table structure for task_goals
+-- ----------------------------
+DROP TABLE IF EXISTS `task_goals`;
+CREATE TABLE `task_goals` (
   `taskGoalId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -97,10 +117,14 @@ CREATE TABLE `taskgoal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for timegoal
+-- Records of task_goals
 -- ----------------------------
-DROP TABLE IF EXISTS `timegoal`;
-CREATE TABLE `timegoal` (
+
+-- ----------------------------
+-- Table structure for time_goals
+-- ----------------------------
+DROP TABLE IF EXISTS `time_goals`;
+CREATE TABLE `time_goals` (
   `timeGoalId` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `startTime` datetime NOT NULL,
@@ -111,10 +135,14 @@ CREATE TABLE `timegoal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for timeperiod
+-- Records of time_goals
 -- ----------------------------
-DROP TABLE IF EXISTS `timeperiod`;
-CREATE TABLE `timeperiod` (
+
+-- ----------------------------
+-- Table structure for time_periods
+-- ----------------------------
+DROP TABLE IF EXISTS `time_periods`;
+CREATE TABLE `time_periods` (
   `timePeriodId` int(11) NOT NULL AUTO_INCREMENT,
   `daysOfWeek` varchar(255) NOT NULL,
   `startTime` int(11) NOT NULL,
@@ -124,10 +152,14 @@ CREATE TABLE `timeperiod` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for user
+-- Records of time_periods
 -- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(255) DEFAULT NULL,
   `firstName` varchar(255) DEFAULT NULL,
@@ -138,10 +170,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Table structure for website
+-- Records of users
 -- ----------------------------
-DROP TABLE IF EXISTS `website`;
-CREATE TABLE `website` (
+
+-- ----------------------------
+-- Table structure for websites
+-- ----------------------------
+DROP TABLE IF EXISTS `websites`;
+CREATE TABLE `websites` (
   `websiteId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `domainName` varchar(255) NOT NULL,
@@ -150,3 +186,7 @@ CREATE TABLE `website` (
   `type` int(11) NOT NULL,
   PRIMARY KEY (`websiteId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of websites
+-- ----------------------------
