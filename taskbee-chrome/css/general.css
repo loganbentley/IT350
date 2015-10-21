@@ -1,15 +1,23 @@
 /* TaskBee General Style */
 
+/******************************************************************************
+ * Page and "accordion" formatting
+ *****************************************************************************/
 body {
     min-width: 300px;
-    background: #f5f5ee; //eeeeee
+    background: #f5f5ee;
     color: #333333;
     padding: 0;
     margin: 0;
 }
 
 #page-content{
-    padding: 2px;
+    padding: 0; /* header and accordion sections will have it */
+}
+
+header {
+    padding: 5px;
+    margin-bottom: 10px;
 }
 
 h1 {
@@ -23,24 +31,84 @@ h1 {
 }
 
 header p {
-    margin-top: 1px;
-    margin-bottom: 1px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-#dash-environment, #dash-tasks, #dash-on-task {
+#accordion{
+    padding-bottom: 1px; /* fixes slight display bug with bottom border of 
+        final accordion-content*/
+}
+
+    .ui-accordion-header{
+        
+    }
+
+    .ui-accordion-header-active{
+        
+    }
+
+    .ui-accordion-content{
+        background: inherit;
+        overflow-x: scroll;
+        padding: 4px !important;
+    }
+
+/******************************************************************************
+ * Dashboard header (user stats)
+ *****************************************************************************/
+
+#dash-usersignin {
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+    .hidden {
+        display: none;
+    }
+
+#dash-session-percent {
+    display: block;
+    background: transparent;
+    font: 60px sans-serif;
+    text-align: center;
+    margin-bottom: 0;
+}
+    #dash-label-session-percent {
+        position: relative;
+        top: -2em;
+        margin: 0;
+    }
+
+    .session-percent-active{
+        color: #F07000;
+    }
+    
+    .session-percent-inactive{
+        color: #808080;
+    }
+    
+.dash-stat-active{
+    color: inherit;
+}
+    
+.dash-stat-inactive{
+    color: #808080;
+}
+
+#dash-environment, #dash-on-task, #tasks-completed {
     font-weight: bold;
 }
 
-.ui-accordion-header{
-    
-}
+/******************************************************************************
+ * Environments
+ *****************************************************************************/
 
-.ui-accordion-header-active{
-    
-}
+/******************************************************************************
+ * Tasks
+ *****************************************************************************/
 
-.ui-accordion-content{
-    background: inherit;
-    overflow-x: scroll;
-    border: none;
-}
+/******************************************************************************
+ * Goals
+ *****************************************************************************/

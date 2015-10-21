@@ -11,11 +11,26 @@
     <body>
         <div id="page-content">
             <header>
-                <img src="" style="display: block; width: 70px; height: 70px; overflow: visible; margin-left: auto; margin-right: auto;" alt="Placeholder Image" />
+                <p id="dash-usersignin">
+                    <span id="dash-usersignin-signin"><a href="">Sign in</a></span>
+                    <span id="dash-usersignin-username" class="hidden">Signed in as 
+                        <span id="username"></span>&nbsp;
+                        <a href="">Sign out</a>
+                    </span>
+                </p>
                 <h1 style="display:none">TaskBee</h1>
-                <p>Active environment: <span id="dash-environment">None</span></p>
-                <p>Tasks Completed: <span id="dash-tasks">Placeholder</span></p>
-                <p>On-task time: <span id="dash-on-task">Placeholder</span></p>
+                <p id="dash-session-percent" class="session-percent-inactive">N/A</p>
+                <p id="dash-label-session-percent">Current:</p>
+                <p>All-time percent: 
+                    <span id="dash-on-task" class="dash-stat-inactive">
+                        Not signed in
+                    </span>
+                </p>
+                <p>Active environment: 
+                    <span id="dash-environment" class="dash-stat-inactive">
+                        Not signed in
+                    </span>
+                </p>
             </header>
             <div id="accordion" class="ui-accordion">
                 <h2 class="ui-accordion-header">Environments</h2>
@@ -25,6 +40,7 @@
                     </div>
                 <h2 class="ui-accordion-header">Tasks</h2>
                     <div class="ui-accordion-content">
+                        <p>Tasks Completed: <span id="tasks-completed">Placeholder</span></p>
                         <p>Really, really, really, really, really, really wide test paragraph.
                         </p>
                     </div>
