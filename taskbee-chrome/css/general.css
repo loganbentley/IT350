@@ -1,0 +1,34 @@
+/* TaskBee General Style */
+
+body {
+    min-width: 300px;
+    background: #f5f5ee; //eeeeee
+    color: #333333;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    min-width: 100%;
+    background: #101050;
+    color: #eeeeee;
+    margin-top: 0;
+    border-top: 1px solid #000030;
+    border-bottom: 1px solid #000030;
+    border-radius: 3px;
+}
+
+header p {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+#dash-environment, #dash-tasks, #dash-on-task {
+    font-weight: bold;
+}
+
+.ui-accordion-content{
+    background: inherit;
+    overflow-x: scroll;
+    border: none;
+}
