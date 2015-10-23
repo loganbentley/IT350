@@ -2,6 +2,7 @@
 require '../vendor/autoload.php';
 require '../app/models/User.php';
 require '../app/models/Account.php';
+require '../app/models/Task.php';
 
 $app = new \Slim\Slim();
 
@@ -43,16 +44,63 @@ $app->post('/login', function() {
   $user = User::authenticate($username, $password);
   if ($user !== null) {
     // Start session
-    $_SESSION['userId'] = $user->id;
-    echo json_encode(array('success' => 1));
+    session_start();
+    $_SESSION['userId'] = $user->userId;
+    $reponse['success'] = 1;
+    $response['user'] = $user->toArray();
+    $response['user']['password'] = null;
+    echo json_encode($response);
   }
   else {
     // Return auth error
+    session_destroy();
     echo json_encode(array('success' => 0));
   }
 
 });
 
+$app->get('/active-session', function() {
+  session_start();
+  session_regenerate_id();
+  if (isset($_SESSION['userId'])) {
+    echo json_encode(array('success' => 1));
+  }
+  else {
+    echo json_encode(array('success' => 0));
+  }
+});
+
+$app->post('/task', function() {
+  session_start();
+  session_regenerate_id();
+  if (isset($_SESSION['userId'])) {
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $dueDate = $_POST['dueDate'];
+
+    $task = new Task(array(
+      'name' => $name,
+      'description' => $description,
+      'dueDate' => $dueDate,
+      'completed' => 0,
+      'userId' => $_SESSION['userId'],
+    ));
+    $task->save();
+
+    $response['success'] = 1;
+    $response['task'] = $task->toArray();
+    echo json_encode($response);
+  }
+  else {
+    echo json_encode(array('success' => 0));
+  }
+
+});
+
+$app->put('/task', function() {
+
+});
 
 $app->run();
+
 ?>
