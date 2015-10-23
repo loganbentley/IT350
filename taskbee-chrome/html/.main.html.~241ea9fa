@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TaskBee</title>
+        <link rel="stylesheet" type="text/css" href="../assets/jquery-ui-1.11.4.custom/jquery-ui.css">
+        <link rel="stylesheet" href="../assets/bootstrap-default/css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="../css/general.css" /> -->
+        <script type="text/javascript" src="../assets/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="../assets/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+        <script type="text/javascript" src="../js/main.js"></script>
+    </head>
+    <body>
+        <div id="page-content">
+            <header class="page-header">
+                <p id="dash-usersignin">
+                    <span id="dash-usersignin-signin">
+                        <a href="createuser.html">Create account</a> | 
+                        <a href="">Sign in</a></span>
+                    <span id="dash-usersignin-username" class="hidden">Signed in as 
+                        <span id="username"></span>&nbsp;
+                        <a href="">Sign out</a>
+                    </span>
+                </p>
+                <h1 style="display:none">TaskBee</h1>
+                <p id="dash-session-percent" class="session-percent-inactive">N/A</p>
+                <p id="dash-label-session-percent">Current:</p>
+                <p>All-time percent: 
+                    <span id="dash-on-task" class="dash-stat-inactive">
+                        Not signed in
+                    </span>
+                </p>
+                <p>Active environment: 
+                    <span id="dash-environment" class="dash-stat-inactive">
+                        Not signed in
+                    </span>
+                </p>
+            </header>
+            <main>
+                <section  id="accordion" class="ui-accordion">
+                    <div class="panel panel-default">
+                        <h2 class="ui-accordion-header">Environments</h2>
+                        <div id="env-content" class="ui-accordion-content">
+                            <table id="env-table"></table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <h2 class="ui-accordion-header">Tasks</h2>
+                        <div id="tasks-content" class="ui-accordion-content">
+                            <table id="tasks-table"></table>
+                            <p>Completed Tasks:</p>
+                            <table id="tasks-table-completed"></table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <h2 class="ui-accordion-header">Goals</h2>
+                        <div id="goals-content" class="ui-accordion-content">
+                            <p>Test paragraph.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>

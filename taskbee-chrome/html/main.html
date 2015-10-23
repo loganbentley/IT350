@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>TaskBee</title>
-        <link rel="stylesheet" type="text/css" href="../assets/jquery-ui-1.11.4.custom/jquery-ui.css">
+        <link rel="stylesheet" href="../assets/bootstrap-default/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../css/general.css" />
         <script type="text/javascript" src="../assets/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="../assets/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+        <script type="text/javascript" src="../assets/bootstrap-default/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../js/main.js"></script>
     </head>
     <body>
         <div id="page-content">
-            <header>
+            <header class="page-header">
                 <p id="dash-usersignin">
                     <span id="dash-usersignin-signin">
                         <a href="createuser.html">Create account</a> | 
@@ -34,23 +37,60 @@
                     </span>
                 </p>
             </header>
-            <div id="accordion" class="ui-accordion">
-                <h2 class="ui-accordion-header">Environments</h2>
-                    <div id="env-content" class="ui-accordion-content">
-                        <table id="env-table"></table>
+            <main>
+                <section id="accordion" class="panel-group" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" role="tab" id="accordion-heading-env">
+                            <h2 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-env" aria-expanded="true" aria-controls="accordion-collapse-env">
+                                    Environment
+                                </a>
+                            </h2>
+                        </div>
+                        <div id="accordion-collapse-env" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-env">
+                            <div class="panel-body">
+                                <table id="env-table" class="table table-condensed"></table>
+                            </div>
+                        </div>
                     </div>
-                <h2 class="ui-accordion-header">Tasks</h2>
-                    <div id="tasks-content" class="ui-accordion-content">
-                        <table id="tasks-table"></table>
-                        <p>Completed Tasks:</p>
-                        <table id="tasks-table-completed"></table>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" role="tab" id="accordion-heading-todo">
+                            <h2 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-todo" aria-expanded="false" aria-controls="accordion-collapse-todo">
+                                    To-do
+                                </a>
+                            </h2>
+                        </div>
+                        <div id="accordion-collapse-todo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-todo">
+                            <div class="panel-body">
+                                <p>Current Tasks:</p>
+                                <table id="tasks-table" class="table table-condensed"></table>
+                                <p>Completed Tasks:</p>
+                                <table id="tasks-table-completed" class="table table-condensed"></table>
+                            </div>
+                        </div>
                     </div>
-                <h2 class="ui-accordion-header">Goals</h2>
-                    <div id="goals-content" class="ui-accordion-content">
-                        <p>Test paragraph.
-                        </p>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" role="tab" id="accordion-heading-goals">
+                            <h2 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-goals" aria-expanded="true" aria-controls="accordion-collapse-goals">
+                                    Goals
+                                </a>
+                            </h2>
+                        </div>
+                        <div id="accordion-collapse-goals" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-goals">
+                            <div class="panel-body">
+                                <p>Test paragraph.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-            </div>
+                </section>
+            
+
+            
+            
+            </main>
         </div>
     </body>
 </html>

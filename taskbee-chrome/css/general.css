@@ -5,42 +5,22 @@
  *****************************************************************************/
 body {
     min-width: 300px;
-    background: #f5f5ee;
-    color: #333333;
-    padding: 0;
-    margin: 0;
 }
 
 #page-content{
-    padding: 0; /* header and accordion sections will have it */
 }
 
 header {
-    padding: 5px;
-    margin-bottom: 10px;
-}
 
+}
 /*
-h1 {
-    min-width: 100%;
-    background: #101050;
-    color: #eeeeee;
-    margin-top: 0;
-    border-top: 1px solid #000030;
-    border-bottom: 1px solid #000030;
-    border-radius: 3px;
-}
-*/
-
 header p {
     margin-top: 0;
     margin-bottom: 0;
 }
+*/
 
-#accordion{
-    padding-bottom: 1px; /* fixes slight display bug with bottom border of 
-        final accordion-content*/
-}
+/*
 
     .ui-accordion-header{
         
@@ -56,10 +36,7 @@ header p {
         overflow-x: scroll;
         padding: 4px !important;
     }
-
-table {
-    width: 100%;
-}
+*/
 
 /******************************************************************************
  * Dashboard header (user stats)
@@ -116,16 +93,9 @@ table {
  * Tasks
  *****************************************************************************/
 
-#tasks-content p {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
 /******************************************************************************
  * Goals
  *****************************************************************************/
-
-
 
 /******************************************************************************
  * Create User
