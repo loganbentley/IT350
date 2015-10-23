@@ -3,6 +3,7 @@ require '../vendor/autoload.php';
 require '../app/models/User.php';
 require '../app/models/Account.php';
 require '../app/models/Task.php';
+require '../app/models/Environment.php';
 
 $app = new \Slim\Slim();
 
@@ -99,6 +100,25 @@ $app->post('/task', function() {
 
 $app->put('/task', function() {
 
+});
+
+$app->post('/environment', function() {
+  session_start();
+  session_regenerate_id();
+  if (isset($_SESSION['userId'])) {
+    $name = $_POST['name'];
+    $environment = new Environment(array(
+      'name' => $name,
+      'userId' => $_SESSION['userId'],
+    ));
+    $environment->save();
+    $response['success'] = 1;
+    $response['environment'] = $environment->toArray();
+    echo json_encode($response);
+  }
+  else {
+    echo json_encode(array('success' => 0));
+  }
 });
 
 $app->run();
