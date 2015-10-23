@@ -35,6 +35,24 @@ $app->post('/signup', function() {
 
 });
 
+$app->post('/login', function() {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  // If authenticate returns a user then they were authenticated. If not, authentication failed
+  $user = User::authenticate($username, $password);
+  if ($user !== null) {
+    // Start session
+    $_SESSION['userId'] = $user->id;
+    echo json_encode(array('success' => 1));
+  }
+  else {
+    // Return auth error
+    echo json_encode(array('success' => 0));
+  }
+
+});
+
 
 $app->run();
 ?>
