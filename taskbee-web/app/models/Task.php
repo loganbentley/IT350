@@ -4,7 +4,7 @@ require '../vendor/autoload.php';
 
 class Task extends TaskbeeModel {
 
-protected $fillable = array('taskId', 'name', 'description', 'priority', 'dueDate', 'completed', 'userId');
+protected $fillable = array('taskId', 'name', 'description', 'dueDate', 'completed', 'userId');
 
 }
 
