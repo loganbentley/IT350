@@ -40,21 +40,27 @@
             </header>
             <main>
                 <section  id="accordion" class="ui-accordion">
-                    <h2 class="panel-header panel-title ui-accordion-header">Environments</h2>
-                        <div id="env-content" class="panel-body ui-accordion-content">
+                    <div class="panel panel-default">
+                        <h2 class="ui-accordion-header">Environments</h2>
+                        <div id="env-content" class="ui-accordion-content">
                             <table id="env-table"></table>
                         </div>
-                    <h2 class="ui-accordion-header">Tasks</h2>
+                    </div>
+                    <div class="panel panel-default">
+                        <h2 class="ui-accordion-header">Tasks</h2>
                         <div id="tasks-content" class="ui-accordion-content">
                             <table id="tasks-table"></table>
                             <p>Completed Tasks:</p>
                             <table id="tasks-table-completed"></table>
                         </div>
-                    <h2 class="ui-accordion-header">Goals</h2>
+                    </div>
+                    <div class="panel panel-default">
+                        <h2 class="ui-accordion-header">Goals</h2>
                         <div id="goals-content" class="ui-accordion-content">
                             <p>Test paragraph.
                             </p>
                         </div>
+                    </div>
                 </section>
             </main>
         </div>
