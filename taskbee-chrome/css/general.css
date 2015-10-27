@@ -13,6 +13,12 @@ body {
 header {
 
 }
+
+/* override bootstrap top header spacing*/
+.page-header {
+    margin-top: 0;
+}
+
 /*
 header p {
     margin-top: 0;
@@ -101,6 +107,7 @@ header p {
  * Create User
  *****************************************************************************/
 
+/*
 #createuser-form {
     width: 100%;
     margin-left: 20px;
@@ -111,4 +118,5 @@ header p {
     margin-top: 0;
     margin-bottom: 0;
 }
+*/
 
