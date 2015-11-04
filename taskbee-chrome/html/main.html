@@ -16,9 +16,9 @@
             <header class="page-header">
                 <p id="dash-usersignin">
                     <span id="dash-usersignin-signin">
-                        <a href="createuser.html">Create account</a> | 
+                        <a href="createuser.html">Create account</a> |
                         <a href="">Sign in</a></span>
-                    <span id="dash-usersignin-username" class="hidden">Signed in as 
+                    <span id="dash-usersignin-username" class="hidden">Signed in as
                         <span id="username"></span>&nbsp;
                         <a href="">Sign out</a>
                     </span>
@@ -26,12 +26,12 @@
                 <h1 style="display:none">TaskBee</h1>
                 <p id="dash-session-percent" class="session-percent-inactive">N/A</p>
                 <p id="dash-label-session-percent">Current:</p>
-                <p>All-time percent: 
+                <p>All-time percent:
                     <span id="dash-on-task" class="dash-stat-inactive">
                         Not signed in
                     </span>
                 </p>
-                <p>Active environment: 
+                <p>Active environment:
                     <span id="dash-environment" class="dash-stat-inactive">
                         Not signed in
                     </span>
@@ -49,9 +49,31 @@
                         </div>
                         <div id="accordion-collapse-env" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-env">
                             <div class="panel-body">
+                              <input type="button" class="btn btn-primary" value="Create Environment" data-toggle="modal" data-target="#create-environment-modal">
+                              <br/>
                                 <table id="env-table" class="table table-condensed"></table>
                             </div>
                         </div>
+
+                        <div id="create-environment-modal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">New Environment</h4>
+                              </div>
+                                <div class="modal-body">
+                                  <label class="form-label">Name:</label>
+                                  <input id="environment-name" type="text" class="form-control">
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  <button id="save-environment" type="submit" class="btn btn-success" data-dismiss="modal">Save</button>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
                     </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading" role="tab" id="accordion-heading-todo">
