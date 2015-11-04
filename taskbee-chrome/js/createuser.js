@@ -27,11 +27,14 @@ function postCreateUser(){
     
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            
+        if (request.readyState == 4 && request.status == 200) {
+            alert("Success");
         }
-        else if (xhttp.readyState == 4 && xhttp.status == 403) {
-            
+        else if (request.readyState == 4 && request.status == 403) {
+            alert("Failure");
+        }
+        else{
+            alert("Status: " + request.status);
         }
     }
     request.open("POST", createUserURL, true);
