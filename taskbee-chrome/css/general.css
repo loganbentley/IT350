@@ -19,30 +19,9 @@ header {
     margin-top: 0;
 }
 
-/*
-header p {
-    margin-top: 0;
+#accordion{
     margin-bottom: 0;
 }
-*/
-
-/*
-
-    .ui-accordion-header{
-        
-    }
-
-    .ui-accordion-header-active{
-        
-    }
-
-    .ui-accordion-content{
-        min-height: 200px;
-        background: inherit;
-        overflow-x: scroll;
-        padding: 4px !important;
-    }
-*/
 
 /******************************************************************************
  * Dashboard header (user stats)

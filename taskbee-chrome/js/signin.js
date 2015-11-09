@@ -20,11 +20,12 @@ window.onload = function(){ //Start the accordion functionality
 }
 
 function postSignin(){
+    alert("About to POST to " + signinURL);
     
     var username = document.getElementById("signin-user").value;
     var password = document.getElementById("signin-pass").value;
 
-    /*
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200) {
@@ -41,10 +42,11 @@ function postSignin(){
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("&username=" + username + "&password=" + password);
     
-    */
+
     
-    var postData = "&username=" + username + "&password=" + password;
-    $.post(signinURL);
+   /* var postData = "&username=" + username + "&password=" + password;
+    $.post(signinURL, postData, postSuccess);
+    */
 } 
 
 function postSuccess(){
