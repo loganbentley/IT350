@@ -26,32 +26,25 @@ window.onload = function(){
 
 }
 
-function populateEnvironments(){
-    var url = "https://taskbee.byu.edu/index.php/environment";
+function populateEnvironments() {
+  var url = "https://taskbee.byu.edu/index.php/environment";
 
-    var name = document.getElementById("environment-name").value;
-
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-      if (request.readyState == 4) {
-        console.log(request.responseText);
-      }
-    }
-    request.open("GET", url, true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send("name=" + name);
-
-    var environments = "";
-
-    for(i = 0; i < array_env.length; i++){
-        environments += "<tbody><tr><td>" + array_env[i] + "</td>" +
+  $.get( url, function( data ) {
+    var data = JSON.parse(data);
+    var environments = data.environments;
+    var html = "";
+    console.log(environments);
+    for(i = 0; i < environments.length; i++){
+        html += "<tbody><tr><td><a href='#' type='button'>Edit Allowed Websites</a></td>" +
+        "<td><strong>" + environments[i].name + "</strong></td>" +
         "<td>" +
-        "<input type='button' class='env-button-start' onclick='' value='Start' />" +
-        "<input type='button' class='env-button-stop hidden' onclick='' value='Stop' />" +
+        "<input type='button' class='env-button-start btn btn-success' onclick='' value='Start' />" +
+        "<input type='button' class='env-button-stop hidden btn btn-fail' onclick='' value='Stop' />" +
         "</td></tr></tbody>";
     }
 
-    document.getElementById("env-table").innerHTML = environments;
+    document.getElementById("env-table").innerHTML = html;
+  });
 }
 
 function populateTasks() {
