@@ -16,6 +16,7 @@ var tasksTableHeader = "<thead><tr><th>&nbsp;</th><th>Task</th><th>Due</th></tr>
 
 window.onload = function(){
 
+    populateDashboard();
     populateEnvironments();
     populateTasks();
     populateTasksCompleted();
@@ -24,6 +25,36 @@ window.onload = function(){
 
     document.getElementById("save-environment").addEventListener("click", createEnvironment);
 
+}
+
+function populateDashboard(){
+    var dashURL = "https://taskbee.byu.edu/index.php/dashboard";
+    var response;
+        var username;
+        var firstName;
+        var lastName;
+        var currentPercent;
+    
+    $.get( dashURL, function( data ) {
+        response = JSON.parse(data);
+        console.log(response);
+    
+        if(response.success != 1){
+            window.location = "signin.html";
+        }
+    
+        username = response.user[0].username;
+            console.log("Signed-in as " + response.user[0].username);
+
+        firstName = response.user[0].firstName;
+        lastName = response.user[0].lastName;
+        currentPercent = response.user[0].currentPercent;
+
+        document.getElementById("username").innerHTML = firstName + " " + lastName;
+        document.getElementById("dash-on-task").innerHTML = currentPercent + "%";
+        $('#dash-usersignin-username').removeClass('hidden');
+        $('#dash-usersignin-signin').addClass('hidden');
+    });
 }
 
 function populateEnvironments() {
