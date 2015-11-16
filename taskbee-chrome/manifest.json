@@ -14,6 +14,11 @@
     ],
     "browser_action": {
         "default_popup": "html/main.html"
+    },
+    "icons" : {
+      "16" : "bee16.png",
+      "48" : "bee48.png",
+      "128" : "bee128.png"
     }
 
 
