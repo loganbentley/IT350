@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "description": "Productivity aid to help people avoid online distractions",
     "permissions": [
+        "tabs",
       "*://*/*",
       "http://*/*",
       "https://*/*",
