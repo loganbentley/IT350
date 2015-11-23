@@ -8,6 +8,9 @@ var array_taskNames = ["Project Name", "Do that one thing", "JUST DO IT!"];
 var array_taskDates = ["10/25/2015", "11/1/2015", "10/21/2015"];
 var array_tasksCompleted = ["Friends for dinner...", "I'm gonna have", "friends for dinner"];
 
+/* URLs */
+var signOutURL = "https://taskbee.byu.edu/logout";
+
 /* HTML Snippits */
 
 var tasksTableHeader = "<thead><tr><th>&nbsp;</th><th>Task</th><th>Due</th></tr></thead>";
@@ -24,6 +27,7 @@ window.onload = function(){
     populateTimeGoals();
 
     document.getElementById("save-environment").addEventListener("click", createEnvironment);
+    document.getElementById("dash-usersignin-signout").addEventListener("click", signOut);
 
 }
 
@@ -123,4 +127,20 @@ function createEnvironment() {
     request.open("POST", url, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("name=" + name);
+}
+
+function signOut() {
+    var request = new XMLHttpRequest();
+    request.open("GET", signOutURL, true);
+    request.send();
+    
+    /*
+    username = "";
+    firstName = "";
+    lastName = "";
+    currentPercent = "";
+    */
+    
+    window.location.reload(true);
+    //window.close();
 }
