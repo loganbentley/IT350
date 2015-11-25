@@ -14,6 +14,8 @@ var array_taskGoalsDates = ["12 DEC 2015", "21 DEC 2015"];
 /* GET URLs */
 var dashURL = "https://taskbee.byu.edu/index.php/dashboard";
 var getTasksURL = "https://taskbee.byu.edu/index.php/task";
+var getWebsitesURL = "https://taskbee.byu.edu/index.php/website";
+var toggleEnvironmentURL = "https://taskbee.byu.edu/index.php/toggleEnvironment";
 
 /* POST URLS */
 var signOutURL = "https://taskbee.byu.edu/index.php/logout";
@@ -81,26 +83,127 @@ function populateEnvironments() {
     var data = JSON.parse(data);
     var environments = data.environments;
     var html = "";
-    console.log(environments);
-    for(i = 0; i < environments.length; i++){
-        html = "<tbody><tr><td><a id='environment-" + i + "' href='#' type='button' value='" + environments[i].name + "'>Edit Allowed Websites</a></td>" +
+
+
+    for (i = 0; i < environments.length; i++) {
+        var activeButton = "";
+        console.log(environments[i].active);
+        if (environments[i].active == 1) {
+          activeButton = "<input id='environment-stop-"+i+"' type='button' class='env-button-stop btn btn-danger' value='Stop' /><input id='environment-start-"+i+"' type='button' class='env-button-start btn btn-success' value='Start' style='display:none;'/>";
+        }
+        else {
+          activeButton = "<input id='environment-stop-"+i+"' type='button' class='env-button-stop btn btn-danger' value='Stop' style='display:none;'/><input id='environment-start-"+i+"' type='button' class='env-button-start btn btn-success' value='Start' />";
+        }
+        html += "<tbody><tr><td><a id='environment-" + i + "' href='#' type='button' value='" + environments[i].name + "' >Edit Allowed Websites</a></td>" +
         "<td><strong>" + environments[i].name + "</strong></td>" +
         "<td>" +
-        "<input type='button' class='env-button-start btn btn-success' onclick='' value='Start' />" +
-        "<input type='button' class='env-button-stop hidden btn btn-fail' onclick='' value='Stop' />" +
+        activeButton +
         "</td></tr></tbody>";
 
-        document.getElementById("env-table").innerHTML += html;
-        $('#environment-' + i).click( showEnvironmentSummary( i ) );
+    }
+
+    document.getElementById("env-table").innerHTML += html;
+
+    for (j = 0; j < environments.length; j++) {
+      $('#environment-' + j).click( showEnvironmentSummary(environments[j].name, environments[j].environmentId) );
+      $('#environment-start-' + j).click( startEnviroment(environments[j].name, environments[j].environmentId, j) );
+      $('#environment-stop-' + j).click( stopEnvironment(environments[j].name, environments[j].environmentId, j) );
     }
 
   });
 }
 
+function showEnvironmentSummary(name, id) {
+  return function() {
+
+    $.get( getWebsitesURL + "?environmentId=" + id , function( data ) {
+        var data = JSON.parse(data);
+        var websites = data.websites;
+
+        var websiteHTML = "";
+        for (i = 0; i < websites.length; i++) {
+          websiteHTML += '<p>'+websites[i].domainName+'</p>';
+        }
+
+        var html = '<div id="environment-details-modal-'+id+'" class="modal fade" role="dialog">' +
+                    '<div class="modal-dialog">' +
+                      '<div class="modal-content">' +
+                        '<div class="modal-header">' +
+                          '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+                          '<h2 class="modal-title">'+name+'</h2>' +
+                        '</div>' +
+                          '<div class="modal-body">' +
+                            '<h4>Blacklisted Sites</h4>' +
+                            '<div id="blacklisted-sites-'+id+'">' +
+                            websiteHTML +
+                            '</div>' +
+                            '<label class="form-label">URL:</label>' +
+                            '<input id="environment-name-'+id+'" type="text" class="form-control">' +
+                            '<br/>' +
+                            '<input id="new-website-'+id+'" type="button" class="btn btn-primary" value="Add Website">' +
+                          '</div>' +
+                          '<div class="modal-footer">' +
+                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                            '<button id="save-environment" type="submit" class="btn btn-success" data-dismiss="modal">Save</button>' +
+                          '</div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+
+        document.getElementById("modals").innerHTML = html;
+        $('#environment-details-modal-'+id).modal('show');
+        $('#new-website-' + id).click( function() {
+          var url = $('#environment-name-'+id).val();
+          var request = new XMLHttpRequest();
+          request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+              $('#blacklisted-sites-'+id).append('<p>'+url+'</p>');
+              $('#environment-name-'+id).val('');
+            }
+          }
+          request.open("POST", getWebsitesURL, true);
+          request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          request.send("environmentId=" + id + "&url=" + url);
+        });
+
+      });
+  };
+}
+
+function startEnviroment(name, id, elementId) {
+  return function() {
+    $('#environment-start-'+elementId).hide();
+    $('#environment-stop-'+elementId).show();
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+
+      }
+    }
+    request.open("POST", toggleEnvironmentURL, true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send("active=" + 1 + "&environmentId=" + id);
+  };
+}
+
+function stopEnvironment(name, id, elementId) {
+  return function() {
+    $('#environment-start-'+elementId).show();
+    $('#environment-stop-'+elementId).hide();
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+
+      }
+    }
+    request.open("POST", toggleEnvironmentURL, true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send("active=" + 0 + "&environmentId=" + id);
+  };
+}
+
 function populateTasks() {
     var taskTableContents = tasksTableHeader;
-
-
     var checkbox = "<input type='checkbox' />"
 
     $.get( getTasksURL, function( data ) {
@@ -169,10 +272,6 @@ function createEnvironment() {
     request.send("name=" + name);
 }
 
-function showEnvironmentSummary(id) {
-  return function() {
-    alert(id)
-  }
 
 function createTask() {
     var title = document.getElementById("task-name").value;
