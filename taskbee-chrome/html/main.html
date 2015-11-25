@@ -20,7 +20,7 @@
                         <a href="signin.html">Sign in</a></span>
                     <span id="dash-usersignin-username" class="hidden">Signed in as
                         <span id="username"></span>&nbsp;
-                        <a href="">Sign out</a>
+                        <button type="button" id="dash-usersignin-signout" class="btn btn-warning btn-xs">Sign out</button>
                     </span>
                 </p>
                 <h1 style="display:none">TaskBee</h1>
@@ -79,18 +79,51 @@
                         <div class="panel-heading" role="tab" id="accordion-heading-todo">
                             <h2 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-todo" aria-expanded="false" aria-controls="accordion-collapse-todo">
-                                    To-do
+                                    Tasks
                                 </a>
                             </h2>
                         </div>
                         <div id="accordion-collapse-todo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-todo">
                             <div class="panel-body">
-                                <p>Current Tasks:</p>
+                              <input type="button" class="btn btn-primary" value="Create Task" data-toggle="modal" data-target="#create-task-modal">
+                                <!--<p>Current Tasks:</p> -->
                                 <table id="tasks-table" class="table table-condensed"></table>
-                                <p>Completed Tasks:</p>
+                                <!--<p>Completed Tasks:</p>
                                 <table id="tasks-table-completed" class="table table-condensed"></table>
+                                -->
                             </div>
                         </div>
+                        
+                        <div id="create-task-modal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">New Task</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                
+                                        <div class="form-group">
+                                            <label for="task-name">Title</label>
+                                            <input type="text" id="task-name" name="task-name" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="task-desc">Details</label>
+                                            <input type="text" id="task-desc" name="task-desc" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="task-due">Due date ("Mon DD, YYYY")</label>
+                                            <input type="text" id="task-due" name="task-due" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button id="save-task" type="submit" class="btn btn-success" data-dismiss="modal">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading" role="tab" id="accordion-heading-goals">
@@ -102,8 +135,7 @@
                         </div>
                         <div id="accordion-collapse-goals" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-goals">
                             <div class="panel-body">
-                                <p>Test paragraph.
-                                </p>
+                                <table id="goals-table" class="table table-condensed"></table>
                             </div>
                         </div>
                     </div>
