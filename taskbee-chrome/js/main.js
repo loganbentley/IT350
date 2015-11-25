@@ -34,15 +34,15 @@ function populateDashboard(){
         var firstName;
         var lastName;
         var currentPercent;
-    
+
     $.get( dashURL, function( data ) {
         response = JSON.parse(data);
         console.log(response);
-    
+
         if(response.success != 1){
             window.location = "signin.html";
         }
-    
+
         username = response.user[0].username;
             console.log("Signed-in as " + response.user[0].username);
 
@@ -66,15 +66,17 @@ function populateEnvironments() {
     var html = "";
     console.log(environments);
     for(i = 0; i < environments.length; i++){
-        html += "<tbody><tr><td><a href='#' type='button'>Edit Allowed Websites</a></td>" +
+        html = "<tbody><tr><td><a id='environment-" + i + "' href='#' type='button' value='" + environments[i].name + "'>Edit Allowed Websites</a></td>" +
         "<td><strong>" + environments[i].name + "</strong></td>" +
         "<td>" +
         "<input type='button' class='env-button-start btn btn-success' onclick='' value='Start' />" +
         "<input type='button' class='env-button-stop hidden btn btn-fail' onclick='' value='Stop' />" +
         "</td></tr></tbody>";
+
+        document.getElementById("env-table").innerHTML += html;
+        $('#environment-' + i).click( showEnvironmentSummary( i ) );
     }
 
-    document.getElementById("env-table").innerHTML = html;
   });
 }
 
@@ -123,4 +125,10 @@ function createEnvironment() {
     request.open("POST", url, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("name=" + name);
+}
+
+function showEnvironmentSummary(id) {
+  return function() {
+    alert(id)
+  }
 }
