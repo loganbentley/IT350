@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "description": "Productivity aid to help people avoid online distractions",
     "permissions": [
-        "tabs",
+      "tabs",
       "*://*/*",
       "http://*/*",
       "https://*/*",
@@ -20,7 +20,9 @@
       "16" : "bee16.png",
       "48" : "bee48.png",
       "128" : "bee128.png"
+    },
+    "background": {
+        "scripts": ["js/background.js"]
     }
-
 
 }

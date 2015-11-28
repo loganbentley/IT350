@@ -26,6 +26,8 @@ var createTaskURL = "https://taskbee.byu.edu/index.php/task";
 var tasksTableHeader =
     "<thead><tr><th>&nbsp;</th><th>Task</th><th>Description</th><th>Due</th></tr></thead>";
 
+var activeEnvironment = "";
+
 /* Functions */
 
 window.onload = function(){
@@ -90,6 +92,7 @@ function populateEnvironments() {
         console.log(environments[i].active);
         if (environments[i].active == 1) {
           activeButton = "<input id='environment-stop-"+i+"' type='button' class='env-button-stop btn btn-danger' value='Stop' /><input id='environment-start-"+i+"' type='button' class='env-button-start btn btn-success' value='Start' style='display:none;'/>";
+          $('#dash-environment').text(environments[i].name);
         }
         else {
           activeButton = "<input id='environment-stop-"+i+"' type='button' class='env-button-stop btn btn-danger' value='Stop' style='display:none;'/><input id='environment-start-"+i+"' type='button' class='env-button-start btn btn-success' value='Start' />";
@@ -172,17 +175,23 @@ function showEnvironmentSummary(name, id) {
 
 function startEnviroment(name, id, elementId) {
   return function() {
-    $('#environment-start-'+elementId).hide();
-    $('#environment-stop-'+elementId).show();
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-      if (request.readyState === 4) {
-
-      }
+    if (activeEnvironment !== "") {
+      alert('You cannot start more than one environment at a time!');
     }
-    request.open("POST", toggleEnvironmentURL, true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send("active=" + 1 + "&environmentId=" + id);
+    else {
+      $('#environment-start-'+elementId).hide();
+      $('#environment-stop-'+elementId).show();
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            activeEnvironment = name;
+            $('#dash-environment').text(activeEnvironment);
+        }
+      }
+      request.open("POST", toggleEnvironmentURL, true);
+      request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      request.send("active=" + 1 + "&environmentId=" + id);
+    }
   };
 }
 
@@ -193,7 +202,7 @@ function stopEnvironment(name, id, elementId) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
-
+        activeEnvironment = "";
       }
     }
     request.open("POST", toggleEnvironmentURL, true);
