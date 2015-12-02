@@ -3,6 +3,7 @@
  */
 
 /* TEST VARIABLES */
+/*
 var array_env = ["Work", "SchoolMWF", "SchoolTTh", "SocialMediaOnly"];
 var array_taskNames = ["Project Name", "Do that one thing", "JUST DO IT!"];
 var array_taskDates = ["10/25/2015", "11/1/2015", "10/21/2015"];
@@ -10,6 +11,7 @@ var array_tasksCompleted = ["Friends for dinner...", "I'm gonna have", "friends 
 
 var array_taskGoalsActive = ["Complete 10 tasks", "Score > 90% by Monday"];
 var array_taskGoalsDates = ["12 DEC 2015", "21 DEC 2015"];
+*/
 
 /* GET URLs */
 var dashURL = "https://taskbee.byu.edu/index.php/dashboard";
@@ -21,12 +23,17 @@ var toggleEnvironmentURL = "https://taskbee.byu.edu/index.php/toggleEnvironment"
 var signOutURL = "https://taskbee.byu.edu/index.php/logout";
 var createTaskURL = "https://taskbee.byu.edu/index.php/task";
 
+/* PUT URLS */
+var completeTaskURL = "https://taskbee.byu.edu/index.php/task";
+
 /* HTML Snippits */
 
 var tasksTableHeader =
-    "<thead><tr><th>&nbsp;</th><th>Task</th><th>Description</th><th>Due</th></tr></thead>";
+    "<thead><tr><th>&nbsp;</th><th>Task</th><th>Details</th><th>Due</th></tr></thead>";
 
 var activeEnvironment = "";
+
+var NO_ACTIVE_ENV = "None";
 
 /* Functions */
 
@@ -97,7 +104,7 @@ function populateEnvironments() {
         else {
           activeButton = "<input id='environment-stop-"+i+"' type='button' class='env-button-stop btn btn-danger' value='Stop' style='display:none;'/><input id='environment-start-"+i+"' type='button' class='env-button-start btn btn-success' value='Start' />";
         }
-        html += "<tbody><tr><td><a id='environment-" + i + "' href='#' type='button' value='" + environments[i].name + "' >Edit Allowed Websites</a></td>" +
+        html += "<tbody><tr><td><a id='environment-" + i + "' href='#' type='button' value='" + environments[i].name + "' >Edit Sites</a></td>" +
         "<td><strong>" + environments[i].name + "</strong></td>" +
         "<td>" +
         activeButton +
@@ -203,6 +210,7 @@ function stopEnvironment(name, id, elementId) {
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
         activeEnvironment = "";
+        $('#dash-environment').text(NO_ACTIVE_ENV);
       }
     }
     request.open("POST", toggleEnvironmentURL, true);
@@ -213,7 +221,6 @@ function stopEnvironment(name, id, elementId) {
 
 function populateTasks() {
     var taskTableContents = tasksTableHeader;
-    var checkbox = "<input type='checkbox' />"
 
     $.get( getTasksURL, function( data ) {
         var data = JSON.parse(data);
@@ -222,26 +229,38 @@ function populateTasks() {
 
         taskTableContents += "<tbody>";
         for(i = 0; i < tasks.length; i++){
-            taskTableContents += "<tr>" +
-                "<td>" + checkbox + "</td>" +
-                "<td><strong>" + tasks[i].name + "</strong></td>" +
-                "<td>" + tasks[i].description + "</td>" +
-                "<td>" + tasks[i].dueDate + "</td>" +
-                "</tr>";
+            //Only display open tasks (for now)
+            if(tasks[i].completed == "0"){//web app returns completed as a string
+                taskTableContents += "<tr>" +
+                    "<td>" + "<input type='checkbox' id='task-box-" + tasks[i].taskId + "' " +
+                       "value='" + tasks[i].taskId + "' />" + "</td>" +
+                    "<td><strong>" + tasks[i].name + "</strong></td>" +
+                    "<td>" + tasks[i].description + "</td>" +
+                    "<td>" + tasks[i].dueDate + "</td>" +
+                    "</tr>";
+
+            }
         }
         /* can change above code to disassemble parts of the date and display
          *  only the date parts (without the timestamp), but we can do that later
          */
         taskTableContents += "</tbody>";
 
-    /*
-    for(i = 0; i < array_taskNames.length; i++){
-        tasks += "<tbody><tr><td><input type='checkbox' /></td>" +
-        "<td>" + array_taskNames[i] + "</td>" +
-        "<td>" + array_taskDates[i] + "</td></tr></tbody>";
-    */
-
+        // Write tasks table to html page 
         document.getElementById("tasks-table").innerHTML = taskTableContents;
+        
+        // Add listeners to completion checkboxes 
+        for(var i = 0; i < tasks.length; i++){
+            if(tasks[i].completed == "0"){
+                taskIdNum = tasks[i].taskId;
+                $('#task-box-' + tasks[i].taskId).change(
+                    function () { completeTask(this); }
+                );
+                //document.getElementById("task-box-" + tasks[i].taskId).addEventListener("change",
+                //    function () { completeTask(taskIdNum); } 
+                //);
+            }
+        }
     });
 }
 
@@ -293,11 +312,30 @@ function createTask() {
         console.log(request.resultText);
     }
 
-    if(title && dateIn && (dueDate != NaN)){
+    if(true){
         var dateString = dueDate.toISOString();
-        request.open("POST", createTaskURL, true);
+        request.open("P", createTaskURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("name=" + title + "&description=" + description + "&dueDate=" + dateString);
+
+        //Reload the tasks list
+        populateTasks();
+    }
+}
+
+function completeTask(element){
+    //element is the html checkbox
+    var taskNum = element.value;
+    
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        console.log(request.resultText);
+    }
+
+    if(true){
+        request.open("PUT", completeTaskURL, true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("taskId=" + taskNum);
 
         //Reload the tasks list
         populateTasks();
