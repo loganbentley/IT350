@@ -18,10 +18,14 @@ var dashURL = "https://taskbee.byu.edu/index.php/dashboard";
 var getTasksURL = "https://taskbee.byu.edu/index.php/task";
 var getWebsitesURL = "https://taskbee.byu.edu/index.php/website";
 var toggleEnvironmentURL = "https://taskbee.byu.edu/index.php/toggleEnvironment";
+var getTaskGoalsURL = "https://taskbee.byu.edu/index.php/taskGoal";
+var getTimeGoalsURL = "https://taskbee.byu.edu/index.php/timeGoal";
 
 /* POST URLS */
 var signOutURL = "https://taskbee.byu.edu/index.php/logout";
 var createTaskURL = "https://taskbee.byu.edu/index.php/task";
+var createTaskGoalURL = "https://taskbee.byu.edu/index.php/taskGoal";
+var createTimeGoalURL = "https://taskbee.byu.edu/index.php/timeGoal";
 
 /* PUT URLS */
 var completeTaskURL = "https://taskbee.byu.edu/index.php/task";
@@ -30,9 +34,12 @@ var completeTaskURL = "https://taskbee.byu.edu/index.php/task";
 
 var tasksTableHeader =
     "<thead><tr><th>&nbsp;</th><th>Task</th><th>Details</th><th>Due</th></tr></thead>";
+var taskGoalTableHeader = 
+    "<thead><tr><th>Name</th><th>Tasks to Complete</th><th>By Date</th></tr></thead>";
+var timeGoalTableHeader = 
+    "<thead><tr><th>Min. Percent</th><th>On Date</th></tr></thead>";
 
 var activeEnvironment = "";
-
 var NO_ACTIVE_ENV = "None";
 
 /* Functions */
@@ -47,6 +54,8 @@ window.onload = function(){
 
     document.getElementById("save-environment").addEventListener("click", createEnvironment);
     document.getElementById("save-task").addEventListener("click", createTask);
+    document.getElementById("save-task-goal").addEventListener("click", createTaskGoal);
+    document.getElementById("save-time-goal").addEventListener("click", createTimeGoal);
     document.getElementById("dash-usersignin-signout").addEventListener("click", signOut);
 
 }
@@ -279,6 +288,46 @@ function populateTasksCompleted(){
 }
 
 function populateGoals() {
+    var taskGoalContents = taskGoalTableHeader;
+    var timeGoalContents = timeGoalTableHeader;
+    
+    //Load the task Goals
+    $.get( getTaskGoalsURL, function( data ) {
+        var data = JSON.parse(data);
+        var taskGoals = data.taskGoals;
+        console.log(taskGoals);
+
+        taskGoalContents += "<tbody>";
+        for(i = 0; i < taskGoals.length; i++){
+            taskGoalContents += "<tr>" +
+                "<td>" + "<span class='taskGoalName'>" + taskGoals[i].name + "</span></td>" +
+                "<td>" + "<span class='taskGoalNumTasks'>" + taskGoals[i].number + "</span></td>" +
+                "<td>" + "<spand class='taskGoalDate'>" + taskGoals[i].date + "</span></td>" +
+                "</tr>";
+        }
+        taskGoalContents += "</tbody>";
+
+        document.getElementById("task-goals-table").innerHTML = taskGoalContents;
+    });
+    
+    //Load the time Goals
+    $.get( getTaskGoalsURL, function( data ) {
+        var data = JSON.parse(data);
+        var timeGoals = data.timeGoals;
+        console.log(timeGoals);
+
+        timeGoalContents += "<tbody>";
+        for(i = 0; i < timeGoals.length; i++){
+            timeGoalContents += "<tr>" +
+                "<td>" + "<span class='timeGoalName'>" + timeGoals[i].name + "</span></td>" +
+                "<td>" + "<span class='timeGoalPercent'>" + timeGoals[i].percent + "</span></td>" +
+                "<td>" + "<spand class='timeGoalDate'>" + timeGoals[i].date + "</span></td>" +
+                "</tr>";
+        }
+        timeGoalContents += "</tbody>";
+
+        document.getElementById("time-goals-table").innerHTML = timeGoalContents;
+    });
 
 }
 
@@ -312,7 +361,7 @@ function createTask() {
         console.log(request.resultText);
     }
 
-    if(true){
+    if(title != "" && description != "" && dateIn != "" && dueDate != ""){
         var dateString = dueDate.toISOString();
         request.open("POST", createTaskURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -320,6 +369,46 @@ function createTask() {
 
         //Reload the tasks list
         populateTasks();
+    }
+}
+
+function createTaskGoal() {
+    var title = document.getElementById("task-goal-name").value;
+    var numTasks = document.getElementById("task-goal-num").value;
+    var date = document.getElementById("task-goal-date").value;
+    
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        console.log(request.resultText);
+    }
+
+    if(title != "" && numTasks != "" && date != ""){
+        var dateString = dueDate.toISOString();
+        request.open("POST", createTaskGoalURL, true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("name=" + title + "&numTasks=" + numTasks + "&date=" + date);
+
+        populateGoals();
+    }
+}
+
+function createTimeGoal() {
+    var title = document.getElementById("time-goal-name").value;
+    var percent = parseFloat(document.getElementById("time-goal-percent").value);
+    var date = document.getElementById("time-goal-date").value;
+    
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        console.log(request.resultText);
+    }
+
+    if(title != "" && percent >= 0.0 && percent <= 100 && date != ""){
+        var dateString = dueDate.toISOString();
+        request.open("POST", createTimeGoalURL, true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("name=" + title + "&percent=" + percent + "&date=" + date);
+
+        populateGoals();
     }
 }
 
