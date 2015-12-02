@@ -314,7 +314,7 @@ function createTask() {
 
     if(true){
         var dateString = dueDate.toISOString();
-        request.open("P", createTaskURL, true);
+        request.open("POST", createTaskURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("name=" + title + "&description=" + description + "&dueDate=" + dateString);
 
