@@ -291,7 +291,7 @@ function populateGoals() {
     $.get( getTaskGoalsURL, function( data ) {
         var data = JSON.parse(data);
         var taskGoals = data.taskGoal;//taskGoal, not taskGoals
-        console.log(data);
+		console.log(data);
         /*
         taskGoalContents += "<tbody>";
         for(i = 0; i < taskGoals.length; i++){
