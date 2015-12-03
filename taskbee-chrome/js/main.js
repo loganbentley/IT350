@@ -18,33 +18,30 @@ var dashURL = "https://taskbee.byu.edu/index.php/dashboard";
 var getTasksURL = "https://taskbee.byu.edu/index.php/task";
 var getWebsitesURL = "https://taskbee.byu.edu/index.php/website";
 var toggleEnvironmentURL = "https://taskbee.byu.edu/index.php/toggleEnvironment";
-var getTaskGoalsURL = "https://taskbee.byu.edu/index.php/taskGoal";
-var getTimeGoalsURL = "https://taskbee.byu.edu/index.php/timeGoal";
+var getTaskGoalsURL = "https://taskbee.byu.edu/index.php/task-goal";
+var getTimeGoalsURL = "https://taskbee.byu.edu/index.php/time-goal";
 
 /* POST URLS */
 var signOutURL = "https://taskbee.byu.edu/index.php/logout";
 var createTaskURL = "https://taskbee.byu.edu/index.php/task";
-var createTaskGoalURL = "https://taskbee.byu.edu/index.php/taskGoal";
-var createTimeGoalURL = "https://taskbee.byu.edu/index.php/timeGoal";
+var createTaskGoalURL = "https://taskbee.byu.edu/index.php/task-goal";
+var createTimeGoalURL = "https://taskbee.byu.edu/index.php/time-goal";
 
 /* PUT URLS */
-var completeTaskURL = "https://taskbee.byu.edu/index.php/task";
+var completeTaskURLBase = "https://taskbee.byu.edu/index.php/task";
 
 /* HTML Snippits */
 
-var tasksTableHeader =
-    "<thead><tr><th>&nbsp;</th><th>Task</th><th>Details</th><th>Due</th></tr></thead>";
-var taskGoalTableHeader = 
-    "<thead><tr><th>Name</th><th>Tasks to Complete</th><th>By Date</th></tr></thead>";
-var timeGoalTableHeader = 
-    "<thead><tr><th>Min. Percent</th><th>On Date</th></tr></thead>";
+var tasksTableHeader = "<thead><tr><th>&nbsp;</th><th>Task</th><th>Details</th><th>Due</th></tr></thead>";
+var taskGoalTableHeader = "<thead><tr><th>Name</th><th>Tasks to Complete</th><th>By Date</th></tr></thead>";
+var timeGoalTableHeader = "<thead><tr><th>Min. Percent</th><th>On Date</th></tr></thead>";
 
 var activeEnvironment = "";
 var NO_ACTIVE_ENV = "None";
 
 /* Functions */
 
-window.onload = function(){
+window.onload = function() {
 
     populateDashboard();
     populateEnvironments();
@@ -58,7 +55,7 @@ window.onload = function(){
     document.getElementById("save-time-goal").addEventListener("click", createTimeGoal);
     document.getElementById("dash-usersignin-signout").addEventListener("click", signOut);
 
-}
+};
 
 /******************************************************************************
  * Setup
@@ -67,10 +64,10 @@ window.onload = function(){
 function populateDashboard(){
 
     var response;
-        var username;
-        var firstName;
-        var lastName;
-        var currentPercent;
+    var username;
+    var firstName;
+    var lastName;
+    var currentPercent;
 
     $.get( dashURL, function( data ) {
         response = JSON.parse(data);
@@ -98,10 +95,9 @@ function populateEnvironments() {
   var url = "https://taskbee.byu.edu/index.php/environment";
 
   $.get( url, function( data ) {
-    var data = JSON.parse(data);
-    var environments = data.environments;
+    var envdata = JSON.parse(data);
+    var environments = envdata.environments;
     var html = "";
-
 
     for (i = 0; i < environments.length; i++) {
         var activeButton = "";
@@ -123,7 +119,7 @@ function populateEnvironments() {
 
     document.getElementById("env-table").innerHTML += html;
 
-    for (j = 0; j < environments.length; j++) {
+    for (var j = 0; j < environments.length; j++) {
       $('#environment-' + j).click( showEnvironmentSummary(environments[j].name, environments[j].environmentId) );
       $('#environment-start-' + j).click( startEnviroment(environments[j].name, environments[j].environmentId, j) );
       $('#environment-stop-' + j).click( stopEnvironment(environments[j].name, environments[j].environmentId, j) );
@@ -136,11 +132,11 @@ function showEnvironmentSummary(name, id) {
   return function() {
 
     $.get( getWebsitesURL + "?environmentId=" + id , function( data ) {
-        var data = JSON.parse(data);
-        var websites = data.websites;
+        var envdata = JSON.parse(data);
+        var websites = envdata.websites;
 
         var websiteHTML = "";
-        for (i = 0; i < websites.length; i++) {
+        for (var i = 0; i < websites.length; i++) {
           websiteHTML += '<p>'+websites[i].domainName+'</p>';
         }
 
@@ -179,7 +175,7 @@ function showEnvironmentSummary(name, id) {
               $('#blacklisted-sites-'+id).append('<p>'+url+'</p>');
               $('#environment-name-'+id).val('');
             }
-          }
+          };
           request.open("POST", getWebsitesURL, true);
           request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           request.send("environmentId=" + id + "&url=" + url);
@@ -203,7 +199,7 @@ function startEnviroment(name, id, elementId) {
             activeEnvironment = name;
             $('#dash-environment').text(activeEnvironment);
         }
-      }
+      };
       request.open("POST", toggleEnvironmentURL, true);
       request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       request.send("active=" + 1 + "&environmentId=" + id);
@@ -221,7 +217,7 @@ function stopEnvironment(name, id, elementId) {
         activeEnvironment = "";
         $('#dash-environment').text(NO_ACTIVE_ENV);
       }
-    }
+    };
     request.open("POST", toggleEnvironmentURL, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("active=" + 0 + "&environmentId=" + id);
@@ -232,12 +228,12 @@ function populateTasks() {
     var taskTableContents = tasksTableHeader;
 
     $.get( getTasksURL, function( data ) {
-        var data = JSON.parse(data);
-        var tasks = data.tasks;
+        var taskdata = JSON.parse(data);
+        var tasks = taskdata.tasks;
         console.log(tasks);
 
         taskTableContents += "<tbody>";
-        for(i = 0; i < tasks.length; i++){
+        for(var i = 0; i < tasks.length; i++){
             //Only display open tasks (for now)
             if(tasks[i].completed == "0"){//web app returns completed as a string
                 taskTableContents += "<tr>" +
@@ -255,18 +251,18 @@ function populateTasks() {
          */
         taskTableContents += "</tbody>";
 
-        // Write tasks table to html page 
+        // Write tasks table to html page
         document.getElementById("tasks-table").innerHTML = taskTableContents;
-        
-        // Add listeners to completion checkboxes 
-        for(var i = 0; i < tasks.length; i++){
+
+        // Add listeners to completion checkboxes
+        for(i = 0; i < tasks.length; i++){
             if(tasks[i].completed == "0"){
                 taskIdNum = tasks[i].taskId;
                 $('#task-box-' + tasks[i].taskId).change(
                     function () { completeTask(this); }
                 );
                 //document.getElementById("task-box-" + tasks[i].taskId).addEventListener("change",
-                //    function () { completeTask(taskIdNum); } 
+                //    function () { completeTask(taskIdNum); }
                 //);
             }
         }
@@ -290,13 +286,13 @@ function populateTasksCompleted(){
 function populateGoals() {
     var taskGoalContents = taskGoalTableHeader;
     var timeGoalContents = timeGoalTableHeader;
-    
+
     //Load the task Goals
     $.get( getTaskGoalsURL, function( data ) {
         var data = JSON.parse(data);
-        var taskGoals = data.taskGoals;
-        console.log(taskGoals);
-
+        var taskGoals = data.taskGoal;//taskGoal, not taskGoals
+        console.log(data);
+        /*
         taskGoalContents += "<tbody>";
         for(i = 0; i < taskGoals.length; i++){
             taskGoalContents += "<tr>" +
@@ -308,8 +304,9 @@ function populateGoals() {
         taskGoalContents += "</tbody>";
 
         document.getElementById("task-goals-table").innerHTML = taskGoalContents;
+        */
     });
-    
+    /*
     //Load the time Goals
     $.get( getTaskGoalsURL, function( data ) {
         var data = JSON.parse(data);
@@ -328,7 +325,7 @@ function populateGoals() {
 
         document.getElementById("time-goals-table").innerHTML = timeGoalContents;
     });
-
+    */
 }
 
 /******************************************************************************
@@ -376,7 +373,10 @@ function createTaskGoal() {
     var title = document.getElementById("task-goal-name").value;
     var numTasks = document.getElementById("task-goal-num").value;
     var date = document.getElementById("task-goal-date").value;
-    
+
+    var dueDate = new Date(date);
+    var today = new Date(Date.now()).toISOString();
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         console.log(request.resultText);
@@ -386,7 +386,8 @@ function createTaskGoal() {
         var dateString = dueDate.toISOString();
         request.open("POST", createTaskGoalURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("name=" + title + "&numTasks=" + numTasks + "&date=" + date);
+        request.send("name=" + title + "&startDate=" + today +
+            "&endDate=" + dateString + "&tasksCompleted=" + numTasks);
 
         populateGoals();
     }
@@ -396,7 +397,7 @@ function createTimeGoal() {
     var title = document.getElementById("time-goal-name").value;
     var percent = parseFloat(document.getElementById("time-goal-percent").value);
     var date = document.getElementById("time-goal-date").value;
-    
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         console.log(request.resultText);
@@ -415,14 +416,14 @@ function createTimeGoal() {
 function completeTask(element){
     //element is the html checkbox
     var taskNum = element.value;
-    
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         console.log(request.resultText);
     }
 
     if(true){
-        request.open("PUT", completeTaskURL, true);
+        request.open("PUT", completeTaskURLBase + "/" + taskNum, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("taskId=" + taskNum);
 
