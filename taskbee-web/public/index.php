@@ -5,6 +5,9 @@ require '../app/models/Account.php';
 require '../app/models/Task.php';
 require '../app/models/Environment.php';
 require '../app/models/Website.php';
+require '../app/models/Session.php';
+require '../app/models/TaskGoal.php';
+require '../app/models/TimeGoal.php';
 
 $app = new \Slim\Slim();
 
@@ -110,8 +113,18 @@ $app->post('/task', function() {
 
 });
 
-$app->put('/task', function() {
-
+$app->put('/task/:id', function($id) {
+	session_start();
+	session_regenerate_id();
+	if (isset($_SESSION['userId']) && isset($id)) {
+		Task::where('taskId', '=', $id)
+					->update(array('completed' => 1));
+		$response['success'] = 1;
+		echo json_encode($response);
+	}
+	else {
+		echo json_encode(array('success' => 0));
+	}
 });
 
 $app->post('/environment', function() {
@@ -200,6 +213,51 @@ $app->post('/website', function() {
   }
 });
 
+$app->post('/task-goal', function() {
+	session_start();
+	session_regenerate_id();
+	if (isset($_SESSION['userId'])) {
+		$userId = $_SESSION['userId'];
+		$name = $_POST['name'];
+		$startDate = $_POST['startDate'];
+		$endDate = $_POST['endDate'];
+		$tasksCompleted = $_POST['tasksCompleted'];
+
+		$taskGoal = new TaskGoal(array(
+			'userId' => $userId,
+			'name' => $name,
+			'startDate' => $startDate,
+			'endDate' => $endDate,
+			'tasksCompleted' => $tasksCompleted
+		));
+
+		$taskGoal->save();
+		$response['success'] = 1;
+		$response['taskGoal'] = $taskGoal->toArray();
+		echo json_encode($response);
+	}
+	else {
+		echo json_encode(array('success' => 0));
+	}
+});
+
+$app->get('/task-goal', function() {
+	session_start();
+	session_regenerate_id();
+	if (isset($_SESSION['userId'])) {
+	  if (isset($_GET['taskGoalId'])) {
+		$taskGoalId = $_GET['taskGoalId'];
+		$taskGoals = TaskGoal::where('taskGoalId', '=', $taskGoalId)->get();
+
+		$response = array();
+		$response['success'] = 1;
+		$response['taskGoals'] = $taskGoals->toArray();
+		echo json_encode($response);
+	  }
+	}
+});
+
+
 $app->post('/toggleEnvironment', function() {
   session_start();
   session_regenerate_id();
@@ -217,26 +275,48 @@ $app->post('/toggleEnvironment', function() {
   }
 });
 
+
 $app->post('/checkWebsite', function() {
   session_start();
-  sessions_regenerate_id();
+  session_regenerate_id();
   if (isset($_SESSION['userId'])) {
     $url = $_POST['url'];
+	$userId = $_SESSION['userId'];
     // Need to check for an active session
-    $session = Session::where('startTime', '<', time())
-                        ->where('endTime', "!=", "NULL")
-                        ->find();
+    $session = Session::where('endTime', "=", null)
+						->where('userId', '=', $userId)
+                        ->first();
 
 	// If there is an active session, grab the environment and websites.
 	// Compare the url to the urls of the websites.
 	// If it is blacklisted, update the session accordingly.
     if (isset($session) && ! empty($session)) {
-      echo 'HI';
+		$environmentId = $session->environmentId;
+		$websites = Website::where('environmentId', '=', $environmentId)->get();
+		foreach ($websites as $website) {
+			$blacklistedUrl = $website->domainName;
+			if (strpos($url, $blacklistedUrl) !== false) {
+				$session->blacklistedSitesVisited++;
+			}
+			else {
+				$session->nonBlacklistedSitesVisited++;
+			}
+			$session->save();
+			break;
+		}
+
+		$response['success'] = 1;
+		$response['session'] = $session->toArray();
+	    echo json_encode($response);
     }
     else {
-      echo 'HO';
+     	$response['success'] = 0;
+		echo json_encode($response);
     }
-
+  }
+  else {
+	  $response['success'] = 0;
+	  echo json_encode($response);
   }
 });
 

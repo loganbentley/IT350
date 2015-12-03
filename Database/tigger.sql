@@ -3,7 +3,7 @@ CREATE TRIGGER start_session AFTER UPDATE ON environments
   FOR EACH ROW
   BEGIN
     IF (NEW.active = 1) THEN
-      INSERT INTO sessions (environmentId) VALUES (NEW.environmentId);
+      INSERT INTO sessions (environmentId, userId) VALUES (NEW.environmentId, NEW.userId);
     ELSEIF (NEW.active = 0) THEN
       UPDATE sessions
       SET endTime = NOW()
