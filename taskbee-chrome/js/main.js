@@ -72,6 +72,7 @@ function populateDashboard(){
 
 	$.get( sessionDataURL, function( data ) {
 		data = JSON.parse(data);
+                console.log(data);
 		if (data.success) {
 			var session = data.session;
 			$('#dash-session-percent').text(session.currentPercentage);
@@ -300,21 +301,19 @@ function populateGoals() {
     //Load the task Goals
     $.get( getTaskGoalsURL, function( data ) {
         var data = JSON.parse(data);
-        var taskGoals = data.taskGoal;//taskGoal, not taskGoals
+        var taskGoals = data.taskGoals;
 		console.log(data);
-        /*
         taskGoalContents += "<tbody>";
         for(i = 0; i < taskGoals.length; i++){
             taskGoalContents += "<tr>" +
                 "<td>" + "<span class='taskGoalName'>" + taskGoals[i].name + "</span></td>" +
-                "<td>" + "<span class='taskGoalNumTasks'>" + taskGoals[i].number + "</span></td>" +
-                "<td>" + "<spand class='taskGoalDate'>" + taskGoals[i].date + "</span></td>" +
+                "<td>" + "<span class='taskGoalNumTasks'>" + taskGoals[i].tasksCompleted + "</span></td>" +
+                "<td>" + "<spand class='taskGoalDate'>" + taskGoals[i].endDate + "</span></td>" +
                 "</tr>";
         }
         taskGoalContents += "</tbody>";
 
         document.getElementById("task-goals-table").innerHTML = taskGoalContents;
-        */
     });
     /*
     //Load the time Goals
