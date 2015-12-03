@@ -245,17 +245,20 @@ $app->get('/task-goal', function() {
 	session_start();
 	session_regenerate_id();
 	if (isset($_SESSION['userId'])) {
-	  if (isset($_GET['taskGoalId'])) {
-		$taskGoalId = $_GET['taskGoalId'];
-		$taskGoals = TaskGoal::where('taskGoalId', '=', $taskGoalId)->get();
+		$userId = $_SESSION['userId'];
+		$taskGoals = TaskGoal::where('userId', '=', $userId)->get();
 
 		$response = array();
 		$response['success'] = 1;
 		$response['taskGoals'] = $taskGoals->toArray();
 		echo json_encode($response);
-	  }
+	}
+	else {
+		echo json_encode(array('success' => 0));
 	}
 });
+
+
 
 
 $app->post('/toggleEnvironment', function() {
@@ -318,6 +321,43 @@ $app->post('/checkWebsite', function() {
 	  $response['success'] = 0;
 	  echo json_encode($response);
   }
+});
+
+$app->get('/session-data', function() {
+	session_start();
+    session_regenerate_id();
+    if (isset($_SESSION['userId'])) {
+		$userId = $_SESSION['userId'];
+		// Need to check for an active session
+		$session = Session::where('endTime', "=", null)
+							->where('userId', '=', $userId)
+		                  	->first();
+
+		$currentPercentage = 0;
+		$allTimePercentage = 0;
+		$blacklistedSitesVisited = $session->blacklistedSitesVisited;
+		$nonBlacklistedSitesVisited = $session->nonBlacklistedSitesVisited;
+		$currentPercentage = 100 - (($blacklistedSitesVisited / ($nonBlacklistedSitesVisited + $blacklistedSitesVisited)) * 100);
+
+		$sessions = Session::where('userId', '=', $userId)->get();
+		$allTimeBlacklisted = 0;
+		$allTimeNonBlacklisted = 0;
+		foreach ($sessions as $sessionVal) {
+			$allTimeBlacklisted += $sessionVal->blacklistedSitesVisited;
+			$allTimeNonBlacklisted += $sessionVal->nonBlacklistedSitesVisited;
+		}
+		$allTimePercentage = 100 - (($allTimeBlacklisted / ($allTimeNonBlacklisted + $allTimeBlacklisted)) * 100);
+
+		$response['success'] = 1;
+		$response['session']['blacklistedSitesVisited'] = $blacklistedSitesVisited;
+		$response['session']['nonBlacklistedSitesVisited'] = $nonBlacklistedSitesVisited;
+		$response['session']['currentPercentage'] = round($currentPercentage, 2) . "%";
+		$response['session']['allTimePercentage'] = round($allTimePercentage, 2) . "%";
+		echo json_encode($response);
+	  }
+	  else {
+		  echo json_encode(array('success' => 0));
+	  }
 });
 
 $app->run();

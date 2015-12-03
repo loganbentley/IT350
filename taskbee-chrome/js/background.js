@@ -6,6 +6,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var postUrl = "https://taskbee.byu.edu/index.php/checkWebsite";
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
+		if (request.readyState === 4) {
+			var data = JSON.parse(request.responseText);
+			var blacklistedSitesVisited = data.session.blacklistedSitesVisited;
+			var nonBlacklistedSitesVisited = data.session.nonBlacklistedSitesVisited;
+		}
     }
     request.open("POST", postUrl, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

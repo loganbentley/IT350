@@ -26,6 +26,7 @@ var signOutURL = "https://taskbee.byu.edu/index.php/logout";
 var createTaskURL = "https://taskbee.byu.edu/index.php/task";
 var createTaskGoalURL = "https://taskbee.byu.edu/index.php/task-goal";
 var createTimeGoalURL = "https://taskbee.byu.edu/index.php/time-goal";
+var sessionDataURL = "https://taskbee.byu.edu/index.php/session-data";
 
 /* PUT URLS */
 var completeTaskURLBase = "https://taskbee.byu.edu/index.php/task";
@@ -68,6 +69,15 @@ function populateDashboard(){
     var firstName;
     var lastName;
     var currentPercent;
+
+	$.get( sessionDataURL, function( data ) {
+		data = JSON.parse(data);
+		if (data.success) {
+			var session = data.session;
+			$('#dash-session-percent').text(session.currentPercentage);
+			$('#dash-on-task').text(session.allTimePercentage);
+		}
+	});
 
     $.get( dashURL, function( data ) {
         response = JSON.parse(data);
