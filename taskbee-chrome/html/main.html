@@ -72,9 +72,9 @@
                                 </div>
                             </div>
                           </div>
-                        </div>
+                        </div><!-- end create-environment-modal -->
 
-                    </div>
+                    </div><!-- end Environments Panel -->
                     <div class="panel panel-primary">
                         <div class="panel-heading" role="tab" id="accordion-heading-todo">
                             <h2 class="panel-title">
@@ -122,11 +122,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- end create-task-modal -->
 
                         <div id="modals"></div>
 
-                    </div>
+                    </div><!-- end Tasks panel -->
                     <div class="panel panel-primary">
                         <div class="panel-heading" role="tab" id="accordion-heading-goals">
                             <h2 class="panel-title">
@@ -137,10 +137,72 @@
                         </div>
                         <div id="accordion-collapse-goals" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-goals">
                             <div class="panel-body">
-                                <table id="goals-table" class="table table-condensed"></table>
+                                <input type="button" class="btn btn-primary" value="Create Task Goal" data-toggle="modal" data-target="#create-task-goal-modal">
+                                <table id="task-goals-table" class="table table-condensed"></table>
+                                <input type="button" class="btn btn-primary" value="Create Time Goal" data-toggle="modal" data-target="#create-time-goal-modal">
+                                <table id="time-goals-table" class="table table-condensed"></table>
                             </div>
                         </div>
-                    </div>
+                        
+                        <div id="create-task-goal-modal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">New Task Goal</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="task-goal-name">Title</label>
+                                            <input type="text" id="task-goal-name" name="task-goal-name" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="task-goal-num">Number of Tasks</label>
+                                            <input type="text" id="task-goal-num" name="task-goal-num" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="task-goal-date">Date ("Mon DD, YYYY")</label>
+                                            <input type="text" id="task-goal-date" name="task-goal-date" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button id="save-task-goal" type="submit" class="btn btn-success" data-dismiss="modal">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end create-task-goal-modal -->
+                        
+                        <div id="create-time-goal-modal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">New Time Goal</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="time-goal-name">Title</label>
+                                            <input type="text" id="time-goal-name" name="time-goal-name" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="time-goal-percent">Percent Time On Task</label>
+                                            <input type="text" id="time-goal-num" name="time-goal-num" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="time-goal-date">Date ("Mon DD, YYYY")</label>
+                                            <input type="text" id="time-goal-date" name="time-goal-date" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button id="save-time-goal" type="submit" class="btn btn-success" data-dismiss="modal">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end create-time-goal-modal -->
+            
+                    </div><!-- end Goals Panel -->
                 </section>
             </main>
         </div>
