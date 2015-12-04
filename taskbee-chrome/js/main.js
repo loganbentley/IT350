@@ -68,16 +68,8 @@ function populateDashboard(){
     var username;
     var firstName;
     var lastName;
-    var currentPercent;
 
-	$.get( sessionDataURL, function( data ) {
-		data = JSON.parse(data);
-		if (data.success) {
-			var session = data.session;
-			$('#dash-session-percent').text(session.currentPercentage);
-			$('#dash-on-task').text(session.allTimePercentage);
-		}
-	});
+	populatePercentages();
 
     $.get( dashURL, function( data ) {
         response = JSON.parse(data);
@@ -92,13 +84,22 @@ function populateDashboard(){
 
         firstName = response.user[0].firstName;
         lastName = response.user[0].lastName;
-        currentPercent = response.user[0].currentPercent;
 
         document.getElementById("username").innerHTML = firstName + " " + lastName;
-        document.getElementById("dash-on-task").innerHTML = currentPercent + "%";
         $('#dash-usersignin-username').removeClass('hidden');
         $('#dash-usersignin-signin').addClass('hidden');
     });
+}
+
+function populatePercentages() {
+	$.get( sessionDataURL, function( data ) {
+		data = JSON.parse(data);
+		if (data.success) {
+			var session = data.session;
+			$('#dash-session-percent').text(session.currentPercentage);
+			$('#dash-on-task').text(session.allTimePercentage);
+		}
+	});
 }
 
 function populateEnvironments() {
@@ -208,6 +209,7 @@ function startEnviroment(name, id, elementId) {
         if (request.readyState === 4) {
             activeEnvironment = name;
             $('#dash-environment').text(activeEnvironment);
+			populatePercentages();
         }
       };
       request.open("POST", toggleEnvironmentURL, true);
@@ -226,6 +228,7 @@ function stopEnvironment(name, id, elementId) {
       if (request.readyState === 4) {
         activeEnvironment = "";
         $('#dash-environment').text(NO_ACTIVE_ENV);
+		populatePercentages();
       }
     };
     request.open("POST", toggleEnvironmentURL, true);

@@ -40,9 +40,9 @@ header {
 #dash-session-percent {
     display: block;
     background: transparent;
-    font: 60px sans-serif;
+    font: 25px sans-serif;
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 1;
 }
     #dash-label-session-percent {
         position: relative;
@@ -53,15 +53,15 @@ header {
     .session-percent-active{
         color: #F07000;
     }
-    
+
     .session-percent-inactive{
         color: #808080;
     }
-    
+
 .dash-stat-active{
     color: inherit;
 }
-    
+
 .dash-stat-inactive{
     color: #808080;
 }
@@ -98,4 +98,3 @@ header {
     margin-bottom: 0;
 }
 */
-

@@ -335,9 +335,16 @@ $app->get('/session-data', function() {
 
 		$currentPercentage = 0;
 		$allTimePercentage = 0;
-		$blacklistedSitesVisited = $session->blacklistedSitesVisited;
-		$nonBlacklistedSitesVisited = $session->nonBlacklistedSitesVisited;
-		$currentPercentage = 100 - (($blacklistedSitesVisited / ($nonBlacklistedSitesVisited + $blacklistedSitesVisited)) * 100);
+		if ($session) {
+			$blacklistedSitesVisited = $session->blacklistedSitesVisited;
+			$nonBlacklistedSitesVisited = $session->nonBlacklistedSitesVisited;
+			if ($blacklistedSitesVisited == 0 && $nonBlacklistedSitesVisited == 0) {
+				$currentPercentage = 100;
+			}
+			else {
+				$currentPercentage = 100 - (($blacklistedSitesVisited / ($nonBlacklistedSitesVisited + $blacklistedSitesVisited)) * 100);
+			}
+		}
 
 		$sessions = Session::where('userId', '=', $userId)->get();
 		$allTimeBlacklisted = 0;
@@ -349,8 +356,8 @@ $app->get('/session-data', function() {
 		$allTimePercentage = 100 - (($allTimeBlacklisted / ($allTimeNonBlacklisted + $allTimeBlacklisted)) * 100);
 
 		$response['success'] = 1;
-		$response['session']['blacklistedSitesVisited'] = $blacklistedSitesVisited;
-		$response['session']['nonBlacklistedSitesVisited'] = $nonBlacklistedSitesVisited;
+		$response['session']['blacklistedSitesVisited'] = isset($blacklistedSitesVisited) ? $blacklistedSitesVisited : 0;
+		$response['session']['nonBlacklistedSitesVisited'] = isset($nonBlacklistedSitesVisited) ? $nonBlacklistedSitesVisited : 0;
 		$response['session']['currentPercentage'] = round($currentPercentage, 2) . "%";
 		$response['session']['allTimePercentage'] = round($allTimePercentage, 2) . "%";
 		echo json_encode($response);
