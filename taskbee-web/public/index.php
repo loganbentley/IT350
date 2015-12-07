@@ -367,6 +367,51 @@ $app->get('/session-data', function() {
 	  }
 });
 
+$app->get('/percent-goal', function() {
+        session_start();
+        session_regenerate_id();
+        if (isset($_SESSION['userId'])) {
+                $userId = $_SESSION['userId'];
+                $percentGoals = TimeGoal::where('userId', '=', $userId)->get();
+
+                $response = array();
+                $response['success'] = 1;
+                $response['percentGoals'] = $percentGoals->toArray();
+                echo json_encode($response);
+        }
+        else {
+                echo json_encode(array('success' => 0));
+        }
+});
+
+$app->post('/percent-goal', function() {
+        session_start();
+        session_regenerate_id();
+        if (isset($_SESSION['userId'])) {
+                $userId = $_SESSION['userId'];
+                $name = $_POST['name'];
+                $startTime = $_POST['startDate'];
+                $endTime = $_POST['endDate'];
+                $targetPercent = $_POST['targetPercent'];
+
+                $percentGoal = new TimeGoal(array(
+                        'userId' => $userId,
+                        'name' => $name,
+                        'startTime' => $startTime,
+                        'endTime' => $endTime,
+                        'targetPercent' => $targetPercent
+                ));
+
+                $percentGoal->save();
+                $response['success'] = 1;
+                $response['percentGoal'] = $percentGoal->toArray();
+                echo json_encode($response);
+        }
+        else {
+                echo json_encode(array('success' => 0));
+        }
+});
+
 $app->run();
 
 ?>

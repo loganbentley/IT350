@@ -4,7 +4,7 @@ require '../vendor/autoload.php';
 
 class TimeGoal extends TaskbeeModel {
 
-protected $fillable = array('timeGoalId', 'name', 'startTime', 'endTime', 'targetPercent', 'actualPercent', 'created_at', 'updated_at');
+protected $fillable = array('timeGoalId', 'userId', 'name', 'startTime', 'endTime', 'targetPercent', 'actualPercent', 'created_at', 'updated_at');
 
 }
 

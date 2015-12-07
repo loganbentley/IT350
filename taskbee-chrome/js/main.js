@@ -19,13 +19,13 @@ var getTasksURL = "https://taskbee.byu.edu/index.php/task";
 var getWebsitesURL = "https://taskbee.byu.edu/index.php/website";
 var toggleEnvironmentURL = "https://taskbee.byu.edu/index.php/toggleEnvironment";
 var getTaskGoalsURL = "https://taskbee.byu.edu/index.php/task-goal";
-var getTimeGoalsURL = "https://taskbee.byu.edu/index.php/time-goal";
+var getPercentGoalsURL = "https://taskbee.byu.edu/index.php/percent-goal";
 
 /* POST URLS */
 var signOutURL = "https://taskbee.byu.edu/index.php/logout";
 var createTaskURL = "https://taskbee.byu.edu/index.php/task";
 var createTaskGoalURL = "https://taskbee.byu.edu/index.php/task-goal";
-var createTimeGoalURL = "https://taskbee.byu.edu/index.php/time-goal";
+var createTimeGoalURL = "https://taskbee.byu.edu/index.php/percent-goal";
 var sessionDataURL = "https://taskbee.byu.edu/index.php/session-data";
 
 /* PUT URLS */
@@ -48,7 +48,8 @@ window.onload = function() {
     populateEnvironments();
     populateTasks();
     populateTasksCompleted();
-    populateGoals();
+    populateTaskGoals();
+    populatePercentGoals();
 
     document.getElementById("save-environment").addEventListener("click", createEnvironment);
     document.getElementById("save-task").addEventListener("click", createTask);
@@ -296,9 +297,8 @@ function populateTasksCompleted(){
 */
 }
 
-function populateGoals() {
+function populateTaskGoals() {
     var taskGoalContents = taskGoalTableHeader;
-    var timeGoalContents = timeGoalTableHeader;
 
     //Load the task Goals
     $.get( getTaskGoalsURL, function( data ) {
@@ -317,26 +317,29 @@ function populateGoals() {
 
         document.getElementById("task-goals-table").innerHTML = taskGoalContents;
     });
-    /*
-    //Load the time Goals
-    $.get( getTaskGoalsURL, function( data ) {
-        var data = JSON.parse(data);
-        var timeGoals = data.timeGoals;
-        console.log(timeGoals);
+}
 
-        timeGoalContents += "<tbody>";
-        for(i = 0; i < timeGoals.length; i++){
-            timeGoalContents += "<tr>" +
-                "<td>" + "<span class='timeGoalName'>" + timeGoals[i].name + "</span></td>" +
-                "<td>" + "<span class='timeGoalPercent'>" + timeGoals[i].percent + "</span></td>" +
-                "<td>" + "<spand class='timeGoalDate'>" + timeGoals[i].date + "</span></td>" +
+function populatePercentGoals() {
+    var percentGoalContents = timeGoalTableHeader;
+    
+    //Load the time Goals
+    $.get( getPercentGoalsURL, function( data ) {
+        var data = JSON.parse(data);
+        var percentGoals = data.percentGoals;
+        console.log(percentGoals);
+
+        percentGoalContents += "<tbody>";
+        for(i = 0; i < percentGoals.length; i++){
+            percentGoalContents += "<tr>" +
+                "<td>" + "<span class='timeGoalName'>" + percentGoals[i].name + "</span></td>" +
+                "<td>" + "<span class='timeGoalPercent'>" + percentGoals[i].targetPercent + "</span></td>" +
+                "<td>" + "<spand class='timeGoalDate'>" + percentGoals[i].endTime + "</span></td>" +
                 "</tr>";
         }
-        timeGoalContents += "</tbody>";
+        percentGoalContents += "</tbody>";
 
-        document.getElementById("time-goals-table").innerHTML = timeGoalContents;
+        document.getElementById("time-goals-table").innerHTML = percentGoalContents;
     });
-    */
 }
 
 /******************************************************************************
@@ -400,7 +403,7 @@ function createTaskGoal() {
         request.send("name=" + title + "&startDate=" + today +
             "&endDate=" + dateString + "&tasksCompleted=" + numTasks);
 
-        populateGoals();
+        populateTaskGoals();
     }
 }
 
@@ -408,6 +411,10 @@ function createTimeGoal() {
     var title = document.getElementById("time-goal-name").value;
     var percent = parseFloat(document.getElementById("time-goal-percent").value);
     var date = document.getElementById("time-goal-date").value;
+    
+    var dueDate = new Date(date);
+    var dateString = dueDate.toISOString();
+    var today = new Date(Date.now()).toISOString();
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -418,9 +425,9 @@ function createTimeGoal() {
         var dateString = dueDate.toISOString();
         request.open("POST", createTimeGoalURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("name=" + title + "&percent=" + percent + "&date=" + date);
+        request.send("name=" + title + "&startDate=" + today + "&endDate=" + dateString + "&targetPercent=" + percent);
 
-        populateGoals();
+        populatePercentGoals();
     }
 }
 
