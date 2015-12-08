@@ -12,7 +12,8 @@ require '../app/models/TimeGoal.php';
 $app = new \Slim\Slim();
 
 $app->get('/', function() {
-  echo 'Default page';
+ // echo 'Default page';
+    echo file_get_contents('default.html');
 });
 
 $app->get('/dashboard', function() {
