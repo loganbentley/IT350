@@ -34,8 +34,8 @@ var completeTaskURLBase = "https://taskbee.byu.edu/index.php/task";
 /* HTML Snippits */
 
 var tasksTableHeader = "<thead><tr><th>&nbsp;</th><th>Task</th><th>Details</th><th>Due</th></tr></thead>";
-var taskGoalTableHeader = "<thead><tr><th>Name</th><th>Tasks to Complete</th><th>By Date</th></tr></thead>";
-var timeGoalTableHeader = "<thead><tr><th>Min. Percent</th><th>On Date</th></tr></thead>";
+var taskGoalTableHeader = "<thead><tr><th>Name</th><th>Tasks to Complete</th><th>Date</th></tr></thead>";
+var timeGoalTableHeader = "<thead><tr><th>Name</th><th>Min. Percent</th><th>Date</th></tr></thead>";
 
 var activeEnvironment = "";
 var NO_ACTIVE_ENV = "None";
