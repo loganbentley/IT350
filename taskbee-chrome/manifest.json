@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Taskbee",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Productivity aid to help people avoid online distractions",
     "permissions": [
       "tabs",
@@ -17,9 +17,9 @@
         "default_popup": "html/main.html"
     },
     "icons" : {
-      "16" : "bee16.png",
-      "48" : "bee48.png",
-      "128" : "bee128.png"
+      "16" : "thumb16square.png",
+      "48" : "thumb48square.png",
+      "128" : "thumb128square.png"
     },
     "background": {
         "scripts": ["js/background.js"]
