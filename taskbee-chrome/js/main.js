@@ -104,6 +104,8 @@ function populatePercentages() {
 }
 
 function populateEnvironments() {
+
+  document.getElementById("env-table").innerHTML = "";
   var url = "https://taskbee.byu.edu/index.php/environment";
 
   $.get( url, function( data ) {
@@ -321,7 +323,7 @@ function populateTaskGoals() {
 
 function populatePercentGoals() {
     var percentGoalContents = timeGoalTableHeader;
-    
+
     //Load the time Goals
     $.get( getPercentGoalsURL, function( data ) {
         var data = JSON.parse(data);
@@ -353,11 +355,14 @@ function createEnvironment() {
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
-      console.log(request.resultText);
+		if (request.readyState == 4 && request.status == 200) {
+            populateEnvironments();
+        }
     }
     request.open("POST", url, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("name=" + name);
+
 }
 
 
@@ -411,7 +416,7 @@ function createTimeGoal() {
     var title = document.getElementById("time-goal-name").value;
     var percent = parseFloat(document.getElementById("time-goal-percent").value);
     var date = document.getElementById("time-goal-date").value;
-    
+
     var dueDate = new Date(date);
     var dateString = dueDate.toISOString();
     var today = new Date(Date.now()).toISOString();
@@ -451,9 +456,9 @@ function completeTask(element){
 }
 
 function signOut() {
-    var request = new XMLHttpRequest();
-    request.open("GET", signOutURL, true);
-    request.send();
+	$.get( signOutURL, function( data ) {
+
+	});
 
     /*
     username = "";
@@ -462,6 +467,6 @@ function signOut() {
     currentPercent = "";
     */
 
-    window.location.reload(true);
+    window.location = "signin.html";
     //window.close();
 }

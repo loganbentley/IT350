@@ -24,25 +24,20 @@ function postCreateUser(){
     var lastname = document.getElementById("create-lastname").value;
     var username = document.getElementById("create-username").value;
     var password = document.getElementById("create-password").value;
-    
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200) {
-            alert("Success");
+			window.location = "signin.html";
         }
-        else if (request.readyState == 4 && request.status == 403) {
-            alert("Failure");
-        }
-        else{
-            alert("Status: " + request.status);
-        }
+
     }
     request.open("POST", createUserURL, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("firstName=" + firstname +
-        "&lastName=" + lastname +
-        "&username=" + username +
-        "&password=" + password);
-    
+		        "&lastName=" + lastname +
+		        "&username=" + username +
+		        "&password=" + password);
+
     alert("Form Sent.");
 }

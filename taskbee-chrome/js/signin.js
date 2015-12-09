@@ -22,7 +22,7 @@ window.onload = function(){
     submitButton = document.getElementById("signin-submit");
     userField = document.getElementById("signin-user");
     passField = document.getElementById("signin-pass");
-    
+
     submitButton.addEventListener("click", postSignin);
 }
 
@@ -36,7 +36,7 @@ function postSignin(){
             postSuccess();
         }
         else if (request.readyState == 4 && request.status >= 400) {
-            alert("Request failed.  Status: " + request.status);
+            // alert("Request failed.  Status: " + request.status);
         }
         else{
             //alert("Status: " + request.status);
@@ -45,8 +45,8 @@ function postSignin(){
     request.open("POST", signinURL, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send("&username=" + username + "&password=" + password);
-    
-} 
+
+}
 
 function postSuccess(){
     userField.value = "";

@@ -17,9 +17,9 @@
             <header class="page-header">
                 <p id="dash-usersignin">
                     <span id="dash-usersignin-signin">
-                        <a href="createuser.html">Create account</a> | 
+                        <a href="createuser.html">Create account</a> |
                         <a href="">Sign in</a></span>
-                    <span id="dash-usersignin-username" class="hidden">Signed in as 
+                    <span id="dash-usersignin-username" class="hidden">Signed in as
                         <span id="username"></span>&nbsp;
                         <a href="">Sign out</a>
                     </span>
@@ -27,14 +27,14 @@
                 <h1 style="display:none">TaskBee</h1>
                 <p id="dash-session-percent" class="session-percent-inactive">N/A</p>
                 <p id="dash-label-session-percent">Current:</p>
-                <p>All-time percent: 
+                <p>All-time percent:
                     <span id="dash-on-task" class="dash-stat-inactive">
-                        Not signed in
+                        0%
                     </span>
                 </p>
-                <p>Active environment: 
+                <p>Active environment:
                     <span id="dash-environment" class="dash-stat-inactive">
-                        Not signed in
+                        0%
                     </span>
                 </p>
             </header>
