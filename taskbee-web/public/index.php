@@ -84,7 +84,8 @@ $app->post('/login', function() {
 });
 
 $app->get('/logout', function() {
-  session_unset();
+	session_start();
+	$_SESSION = array();
 });
 
 $app->post('/task', function() {
